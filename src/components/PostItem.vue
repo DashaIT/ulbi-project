@@ -1,11 +1,12 @@
 <template>
     <div class="post">
         <div>
+            <div>{{ post.id }}</div>
             <div><strong>Название: </strong>{{ post.title }}</div>
             <div><strong>Описание: </strong>{{ post.body }}</div>
         </div>
         <div class="post__btns">
-            <MyButton>Удалить</MyButton>
+            <MyButton @click="$emit('remove', post)">Удалить</MyButton>
         </div>
     </div>
 </template>
@@ -18,7 +19,7 @@ export default {
             type: Object,
             required: true
         }
-    },   
+    },
 }
 </script>
 
