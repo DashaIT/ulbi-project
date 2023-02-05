@@ -1,13 +1,8 @@
 <template>
     <div>
-        <h1>{{ $store.state.isAuth ? 'Пользователь авторизован' : 'Авторизуйся' }}</h1>
-        <h1> {{ $store.getters.doubleLikes }} </h1>
-        <div>
-            <MyButton @click="$store.commit('incrementLikes')">Like</MyButton>
-            <MyButton @click="$store.commit('decrementLikes')">Dislike</MyButton>
-        </div>
+        
         <h1>Страница с постами</h1>
-        <MyInput 
+         <!-- <MyInput 
             v-model="searchQuery"
             placeholder="Поиск..."
             v-focus
@@ -19,7 +14,7 @@
                 Создать пост
             </MyButton>
             <my-select :options="sortOptions" v-model="selectedSort"/>
-        </div>
+        </div> -->
         
         <MyDialog v-model:show="dialogVisible">
             <PostForm @create="createPost" />
@@ -65,8 +60,8 @@ export default {
             limit: 10,
             totalPages: 0,
             sortOptions: [
-                {value: 'title', name: 'По названию'},
-                {value: 'body', name: 'По описанию'},
+                { value: 'title', name: 'По названию' },
+                { value: 'body', name: 'По описанию' },
             ],
         }
     },
@@ -83,54 +78,16 @@ export default {
         },
         // changePage(pageNumber) {
         //     this.page = pageNumber;
-        // },
-        async fetchPosts() {
-            try {
-                this.isPostLoading = true;                
-                const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
-                    params: {
-                        _page: this.page,
-                        _limit: this.limit
-                    }
-                })
-                this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
-                this.posts = response.data; 
-            } catch(e) {                               
-                alert('Ошибка')
-            } finally {
-                this.isPostLoading = false;
-            }            
-        },
-        async loadMorePosts() {
-            try {
-                this.page += 1;
-                const response = await axios.get('https://jsonplaceholder.typicode.com/posts', {
-                    params: {
-                        _page: this.page,
-                        _limit: this.limit
-                    }
-                })
-                this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
-                this.posts = [...this.posts, ...response.data]; 
-            } catch(e) {                               
-                alert('Ошибка')
-            }          
-        }
+        // },        
+
 
     },
     mounted() {
-        this.fetchPosts();        
+        // this.fetchPosts();        
 
     },
     computed: {
-        sortedPosts() {
-            return [...this.posts].sort((post1, post2) => {
-                return post1[this.selectedSort]?.localeCompare(post2[this.selectedSort])
-            })
-        },
-        sortedAndSearchedPosts() {
-            return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
-        }
+
     },
     watch: {
         // selectedSort(newValue) {
@@ -146,8 +103,6 @@ export default {
 </script>
 
 <style>
-
-
 form {
     display: flex;
     flex-direction: column;
@@ -163,6 +118,7 @@ form {
     display: flex;
     margin-top: 15px;
 }
+
 .page {
     border: 1px solid black;
     padding: 10px;
